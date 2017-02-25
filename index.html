@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Who Wants To Be A Millionaire?</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+
+<body>
+  <main>
+
+  <!-- home page, initial view, on top of game interface -->
+  <section id='home'>
+    <!-- includes settings panel for changing categories -->
+    <img id='to-settings' src='images/settings.png'>
+    <img id='volume' src='images/sound-on.png'>
+    <div id='settings'><div>
+      Change Quiz Category<br/>
+      <div><div class='chosen-category'>Any</div></div>
+      <div><div>General Knowledge</div></div>
+      <div><div>Books</div></div>
+      <div><div>Film</div></div>
+      <div><div>Music</div></div>
+      <div><div>Video Games</div></div>
+      <div><div>Science & Nature</div></div>
+      <div><div>Computers</div></div>
+      <div><div>Sports</div></div>
+      <div><div>Geography</div></div>
+      <div><div>History</div></div>
+      <div><div>Animals</div></div>
+      <div><div>Vehicles</div></div>
+      <div><div>Japanese Anime & Manga</div></div>
+      <div id='done'><div>Done</div></div>
+    </div></div>
+
+    <div class='button' id='to-high-scores'><div>High Scores</div></div>
+    <div class='button' id='to-how-to-play'><div>How to Play</div></div>
+    <div class='button' id='play-traditional'><div>Traditional</div></div>
+    <div class='button' id='play-modern'><div>Modern</div></div>
+    <div class='menu-line-1'></div>
+    <div class='menu-line-2'></div>
+    <div class='menu-line-3'></div>
+    <div class='menu-line-4'></div>
+
+    <footer>
+      <p>Use of <i>Who Wants to be a Millionaire?</i> logo and graphics for non-commercial educational use qualifies as <a href='https://en.wikipedia.org/wiki/Copyright_law_of_the_United_Kingdom#Fair_dealing_and_other_exceptions'>fair dealing</a> under the <a href='http://www.legislation.gov.uk/uksi/2014/1372/regulation/4/made'>Copyright law of the United Kingdom</a>.</p>
+    </footer>
+  </section>
+
+  <!-- high scores page, slides in on click, on top of game interface -->
+  <section id='high-scores'>
+    <div>
+      <p>Traditional Version</p>
+      <table id='trad-high-scores'></table>
+      <p>Modern Version</p>
+      <table id='modn-high-scores'></table>
+      <div class='back-to-menu'>Back to Menu</div>
+    </div>
+    <div class='menu-line-1'></div>
+    <div class='menu-line-2'></div>
+    <div class='menu-line-3'></div>
+    <div class='menu-line-4'></div>
+  </section>
+
+  <!-- rules page, slides in on click, on top of game interface -->
+  <section id='how-to-play'>
+    <div>
+      <div id='rules'>
+        <h1>How To Play</h1>
+        <p>Answer each question correctly within the time limit to move on to the next. Questions are played for increasingly large sums, roughly doubling at each turn.</p>
+        <p>After selecting an answer, you have the option to change as many times as you like until you click 'final answer'. After this the answer will be locked in and the timer will stop. If the timer runs out, your last selected answer will be locked in.</p>
+        <p>At any point within a question's time limit, or before starting the next question, you can 'walk away' with your winnings so far. </p>
+        <p>There are also two milestone questions per game. Answering these correctly guarantees your current winnings. After the £1,000 question, for example, you will leave with at least £1,000 even if you get a subsequent question wrong. Your winnings would  drop down to the last milestone reached instead of all the way back to £0.</p>
+        <h2>Game Modes</h2>
+        <p>'Traditional' game mode consists of 15 questions each with a time limit of 60s. The milestones are at £1,000 and £32,000.</p>
+        <p>In 'Modern' mode there are only 12 questions, with reduced time limits of 15s for the first two questions and 30s for the next five. The second milestone is changed to £50,000.</p>
+        <p>Each game mode has a different 'money ladder', but the maximum prize is always £1&nbsp;MILLION.</p>
+        <br/>
+      </div>
+      <div id=fadeout></div>
+      <div class='back-to-menu'>Back to Menu</div>
+    </div>
+    <div class='menu-line-1'></div>
+    <div class='menu-line-2'></div>
+    <div class='menu-line-3'></div>
+    <div class='menu-line-4'></div>
+  </section>
+
+  <!-- panel to display messages, fixed, hidden/visible when needed -->
+  <section id='message-board'>
+    <div></div>
+    <div id='panel'>
+      <div id='message-text'></div>
+      <div id='buttons'>
+        <div id='quit'></div>
+        <div id='next-question'></div>
+        <div id='confirm' class='active'></div>
+      </div>
+    </div>
+    <input type='text'></div>
+  </section>
+
+  <!-- game interface, shows question timer, walk-away, final answer -->
+  <section id='timer-display'>
+    <div id='timer'></div>
+    <img id='clock' src='images/clock.png'>
+    <img id='walk-away' src='images/walk-away.png'>
+    <div id='final' class='inactive'>Final Answer?</div>
+    <img id='switch' src='images/lifeline-switch.png'>
+  </section>
+
+  <!-- game interface, shows question, answer options -->
+  <section id='question-display'>
+    <div id='question-line'></div>
+    <div id='question-bg'></div>
+    <div id='question'></div>
+
+    <div id='A' class='answer-container'><div class='answer-bg'></div>
+      <div class='answer-text'><b>&diams;</b>&nbsp;&nbsp;<u>A&nbsp;:&nbsp;&nbsp;</u><span class='answer'></span></div></div>
+    <div id='B' class='answer-container'><div class='answer-bg'></div>
+      <div class='answer-text'><b>&diams;</b>&nbsp;&nbsp;<u>B&nbsp;:&nbsp;&nbsp;</u><span class='answer'></span></div></div>
+    <div id='C' class='answer-container'><div class='answer-bg'></div>
+      <div class='answer-text'><b>&diams; </b>&nbsp;&nbsp;<u>C&nbsp;:&nbsp;&nbsp;</u><span class='answer'></span></div></div>
+    <div id='D' class='answer-container'><div class='answer-bg'></div>
+      <div class='answer-text'><b>&diams; </b>&nbsp;&nbsp;<u>D&nbsp;:&nbsp;&nbsp;</u><span class='answer'></span></div></div>
+  </section>
+
+  <!-- game interface, shows money ladder, question number, lifelines -->
+  <section id='money-ladder'>
+    <div class='graphics-layer'>
+      <div id='lifelines'>
+        <img id='5050' src='images/lifeline-5050.png'>
+        <img id='paf' src='images/lifeline-paf.png'>
+        <img id='ata' src='images/lifeline-ata.png'>
+        <img id='help' src='images/lifeline-help.png'>
+      </div>
+      <div id='ladder'/>
+    </div>
+  </section>
+
+  <!-- game interface, background image, win animations  -->
+  <img id='studio' src='images/studio.jpg'>
+  <canvas id='bg' width='760' height='1000'></canvas>
+  <canvas id='celebration' width='760' height='1000'></canvas>
+
+  <!-- video and audio elements -->
+  <section id='video-container'>
+    <video id='intro-video' autoplay>
+      <source src='video/intro.mp4' type='video/mp4'>
+    </video>
+    <div>Skip &gt;</div>
+  </section>
+
+  </main>
+</body>
+
+<link rel='stylesheet' href='style.css'>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+<script src='scripts/menu.js'></script>
+<script src='scripts/background.js'></script>
+<script src='scripts/timer.js'></script>
+<script src='scripts/high-scores.js'></script>
+<script src='scripts/get-questions.js'></script>
+<script src='scripts/gameplay.js'></script>
+<script src='scripts/lifelines.js'></script>
+<script src='scripts/celebration.js'></script>
+</html>

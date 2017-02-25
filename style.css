@@ -1,0 +1,769 @@
+/* import font to be used for the question text & money ladder */
+@font-face {
+    font-family: Conduit;
+    src: url(fonts/conduit_itc_medium1.ttf);
+}
+
+body {
+  text-align: center;
+  font-family: Conduit, sans-serif;
+}
+
+
+
+
+
+/* intro video */
+#video-container {
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
+  z-index: 3;
+  animation: fadeOut 1s linear 20s;
+  animation-fill-mode: forwards;
+}
+#intro-video {
+  min-height: 100vh;
+  min-width: 100vw;
+  transform: translate(-50%, -50%);
+}
+#video-container > div {
+  position: fixed;
+  width: 20vh;
+  height: 7.5vh;
+  top: 90vh;
+  left: 100vw;
+  margin-left: -20vh;
+  padding: 1vh;
+  font-size: 5vh;
+  background: #DEF;
+  border: 2px solid black;
+  color: black;
+  z-index: 4;
+  opacity: 0;
+  animation: fadeIn .5s linear 1s;
+  animation-fill-mode: forwards;
+}
+#video-container > div:hover { box-shadow: 0 0 40px silver; }
+@keyframes fadeOut {
+  0%   { opacity: 1; }
+  99%  { opacity: 0; z-index: 3; }
+  100% { z-index: -4; }
+}
+@keyframes fadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+
+
+
+/* positioning of the main game panels (html <section> elements) */
+/* menu/navigation panels slide on top of the main game interface */
+section {
+  position: fixed;
+  padding: .5vw;
+  box-sizing: border-box;
+}
+
+.graphics-layer{ z-index: -3; }
+
+#home {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+#home, #high-scores, #how-to-play {
+  background: url(images/Millionaire-bg.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  overflow: hidden;
+}
+
+#high-scores, #how-to-play, div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#message-board {
+  width: 80%;
+  height: 60%;
+  top: 15%;
+  left: 10%;
+  z-index: 1;
+}
+
+#timer-display {
+  top: 0;
+  left: 0;
+  width: 70vw;
+  height: 60vh;
+}
+
+#money-ladder {
+  top: 0;
+  right: 0;
+  width: 30vw;
+  height: 60vh;
+}
+#money-ladder .graphics-layer {
+  border-left: 5px solid;
+  -webkit-border-image: -webkit-linear-gradient(left,gray,silver,gray) 1 100%;
+  -moz-border-image: -moz-linear-gradient(left,gray,silver,gray) 1 100%;  
+  -o-border-image: -o-linear-gradient(left,gray,silver,gray) 1 100%;
+  border-image: linear-gradient(to right,gray,silver,gray) 1 100%;
+  background-image: radial-gradient(rgba(0,0,0,.6) 20%,rgba(0,0,0,.8));
+}
+
+#question-display {
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 40vh;border-top: 2px solid gray;
+  background: -webkit-linear-gradient(rgba(0,0,0,0),rgba(0,10,20,.9) 50%);
+  background: -moz-linear-gradient("rgba(0,0,0,0)",rgba(0,10,20,.9) 50%);
+  background: -o-linear-gradient(rgba(0,0,0,0),rgba(0,10,20,.9) 50%);
+  background: linear-gradient(rgba(0,0,0,0),rgba(0,10,20,.9) 50%);
+}
+
+/* the panels snap to new positions on window resize */
+@media screen and (max-aspect-ratio: 2/3) {
+  #timer-display {
+    width: 100vw;
+    height: 40vh;
+  }
+  #question-display {
+    width: 100vw;
+    height: 60vh;
+  }
+  #money-ladder {
+    visibility: hidden;
+    width: 42vw;
+    left: 0;
+  }
+  #lifelines, .selected { visibility: visible; }
+  .selected {
+    position: absolute;
+    top: -4vw;
+    right: -60vw;
+    width: 25vw;
+    height: 300px;
+  }
+}
+@media screen and (min-aspect-ratio: 1/1) {
+  #timer-display {
+    width: 70vw;
+    height: 60vh;
+  }
+  #question-display {
+    width: 70vw;
+    height: 40vh;
+  }
+  #money-ladder {
+    height: 100vh;
+  }
+  #ladder div {
+    height: 4%;
+    margin-bottom: -10vw;
+  }
+}
+
+/* animations for menu navigation */
+@keyframes inLeft {
+  from { left: -100vw; }
+  to   { left: 0; }
+}
+@keyframes inRight {
+  from { left: 100vw; }
+  to   { left: 0; }
+}
+@keyframes outLeft {
+  from { left: 0; }
+  to   { left: -100vw; }
+}
+@keyframes outRight {
+  from { left: 0; }
+  to   { left: 100vw; }
+}
+
+
+
+
+
+/* elements inside the menu/navigation panel */
+#home .button {
+  position: relative;
+  width: 30%;
+  min-width: 300px;
+  height: 15%;
+  border: 30px double darkblue;
+  border-image: url('images/question-frame.png') 30% stretch;
+  z-index: 1;
+}
+#home .button > div {
+  font-size: 5vh;
+  padding-top: 1vh;
+  background-color: black;
+  color: white;
+}
+#to-high-scores { top: 55%; }
+#to-how-to-play { top: 59.4%; left: 7%; }
+#play-traditional { top: 25%; float: right; }
+#play-modern { clear: right; top: 29.4%; float: right; left: -7%; }
+
+#home img {
+  position: absolute;
+  width: 10vh;
+  height: 10vh;
+  top: 3vh;
+  left: 100vw;
+  margin-left: -13vh;
+  transition: .1s;
+}
+#home #volume { top: 15vh; }
+#home img:hover {
+  width: 11vh;
+  height: 11vh;
+  top: 2.5vh;
+  margin-left: -13.5vh;
+}
+#settings {
+  font-size: 5vh;
+  line-height: 10vh;
+  color: white;
+  visibility: hidden;
+  z-index: 2;
+}
+#settings > div {
+  width: 80%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
+  box-shadow: 0 0 500px black;
+  background: rgba(0,0,0,.9);
+  border: 3px solid #2578CC;
+  border-radius: 10vh;
+}
+#settings > div > div {
+  position: static;
+  display: inline-block;
+  width: 25%;
+  height: 15%;
+  margin: -1vh .5vh;
+  color: #012;
+  background: silver;
+  overflow: hidden;
+}
+#settings > div > div > div {
+  position: static;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  line-height: normal;
+  font-size: 3.8vh;
+}
+#settings .chosen-category { background: #67677F; }
+#settings > div > div:hover { background: #AAA; }
+
+#settings #done {
+  background: none;
+  color: #FED;
+}
+#settings #done:hover { text-shadow: 0 0 30px white; }
+
+.menu-line-1, .menu-line-2, .menu-line-3, .menu-line-4 {
+  height: 3px;
+  width: 100vw;
+  background-color: #2578CC;
+}
+.menu-line-1, .menu-line-3 { top: 62.2%; }
+.menu-line-2, .menu-line-4 { top: 81.4%; }
+
+@media screen and (max-width: 750px) {
+  #home .button {
+    width: 51%;
+    clear: none;
+    left: 0;
+  }
+  #to-how-to-play { top: 11.6%; }
+  #to-high-scores { top: 10%; }
+  #play-traditional { top: 25%; }
+  #play-modern { top: 29.4%; }
+
+  .menu-line-3 { top: 17.6%; }
+  .menu-line-4 { top: 34%; }
+}
+@media screen and (max-aspect-ratio: 1/1) {
+  #settings > div > div > div { font-size: 3.8vw; }
+}
+
+
+
+
+
+/* elements inside the high-scores and how-to-play panels */
+#high-scores > div:first-child, #how-to-play > div:first-child {
+  width: 90%;
+  height: 90%;
+  top: 5%;
+  left: 5%;
+  color: white;
+  background: rgba(0,0,0,.9);
+  border: 3px solid #2578CC;
+  border-radius: 10vh;
+  z-index: 1;
+}
+#high-scores p {
+  margin-bottom: 2vh;
+  font-size: 4vh;
+}
+#high-scores table {
+  margin: 0 0 4vh 10vw;
+  color: white;
+  font-size: 2.3vh;
+}
+#high-scores tr { height: 4.5vh; }
+#high-scores th { text-align: left; }
+#high-scores td { width: 20vw; }
+
+.back-to-menu {
+  width: 20vh;
+  height: 5vh;
+  top: 90%;
+  left: 90%;
+  margin-left: -20vh;
+  padding: 1.2vh;
+  background: #224;
+  border: 2px solid #667;
+  border-radius: 1.5vh;
+  font-size: 2.3vh;
+}
+.back-to-menu:hover { box-shadow: 0 0 20px silver; }
+
+#rules, #fadeout {
+  width: 61vw;
+  height: 75%;
+  margin: 8vh 15vw;
+  padding-right: 15px;
+  overflow-y: scroll;
+  font-size: 1.2em;
+  line-height: 1.2em;
+}
+#fadeout {
+  height: 15%;
+  margin: 67vh 15vw;
+  background: -webkit-linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.9) 60%,rgba(0,0,0,0));
+  background: -moz-linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.9) 60%,rgba(0,0,0,0));
+  background: -o-linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.9) 60%,rgba(0,0,0,0));
+  background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.9) 60%,rgba(0,0,0,0));
+}
+#rules p { text-align: left; }
+
+
+
+
+
+/* elements inside the pop-up message panel */
+#message-board > div:first-child { position: fixed; }
+#message-board #panel {
+  border: 3px solid silver;
+  border-radius: 10vh;
+  background: rgba(0,0,50,.9);
+  box-shadow: 0 0 500px black;
+  font-size: 200%;
+  color: #FED;
+}
+#message-board input {
+  position: absolute;
+  top: 45%;
+  width: 60%;
+  height: 15vh;
+  left: 20%;
+  background: none;
+  border: none;
+  box-shadow: inset 0 0 20px rgba(200,200,200,.3);
+  text-align: center;
+  font-size: 12vh;
+  color: white;
+  visibility: hidden;
+}
+#message-text {
+  top: 5%;
+  padding: 10%;
+}
+#message-text > div {
+  width: 60%;
+  height: 60%;
+  left: 20%;
+  border: 1px solid;
+}
+#message-text > div > div {
+  width: 15%;
+  background: -webkit-linear-gradient(white,purple);
+  background: -moz-linear-gradient(white,purple);
+  background: -o-linear-gradient(white,purple);
+  background: linear-gradient(white,purple);
+}
+#message-text #bar-A { left: 8.75%; }
+#message-text #bar-B { left: 31.25%; }
+#message-text #bar-C { left: 53.75%; }
+#message-text #bar-D { left: 76.25%; }
+
+#message-text table {
+  position: absolute;
+  width: 54%;
+  top: 60%;
+  left: 23.5%;
+  text-align: center;
+  color: white;
+  font-size: 4vh;
+}
+#message-board #buttons {
+  height: 10%;
+  top: 75%;
+}
+#message-board #buttons * { width: 35%; }
+#quit:hover, #next-question:hover, #confirm.active:hover { text-shadow: 0 0 50px white; }
+#quit { left: 10%; }
+#next-question { left: 55%; }
+#confirm { left: 32.5%; }
+#confirm.inactive { color: #445; }
+
+
+
+
+
+/* elements inside the main game-play panels... */
+/* */
+/* ...top-left panel displaying the timer, final-answer button */
+#timer-display {
+  display: flex;
+  justify-content: center;
+}
+#timer, #clock, #light-container {
+  width: 42vw;
+  height: 42vw;
+  margin: 15%;
+}
+#timer, #light-container {
+  left: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25vw;
+  color: white;
+  font-family: 'Copperplate'
+}
+#walk-away {
+  position: fixed;
+  top: 58.3vh;
+  margin-top: -6.72vw;
+  left: 10px;
+  width: 8.65vw;
+}
+#switch {
+  position: absolute;
+  width: 7.8vw;
+  height: 5.8vw;
+  top: .2vw;
+  left: 61.5vw;
+  visibility: hidden;
+}
+#final {
+  width: 25vh;
+  height: 6vh;
+  top: 53vh;
+  left: 69vw;
+  margin-left: -25vh;
+  font-size: 4vh;
+  padding: .7vh 0;
+}
+#final.inactive {
+  color: #555;
+  background: rgba(8,8,8,.5);
+  border: 3px solid rgba(3,3,3,.5);
+  border-radius: 1.2vh;
+}
+#final.active {
+  color: #013;
+  background: silver;
+  border: 3px solid gray;
+  border-radius: 1.2vh;
+  box-shadow: 0 0 15px silver;
+}
+#final.active:hover { box-shadow: 0 0 50px silver; }
+
+.light {
+  width: 2.4vw;
+  height: 2.4vw;
+  top: -1vw;
+  left: -1.2vw;
+  border: .4vw solid silver;
+  border-radius: 50%;
+  background-color: palegoldenrod;
+}
+.lit { animation: lit 1s linear infinite; }
+.flashing { animation: flashing .5s linear infinite; }
+
+@media screen and (max-aspect-ratio: 2/3) {
+  #timer, #clock, #light-container {
+    width: 40vw;
+    height: 40vw;
+    margin: 10%;
+  }
+  #timer, #light-container { left: 20%;}
+
+  #walk-away {
+    width: 10.4vw;
+    top: 38vh;
+    left: 10px;
+  }
+  #switch {
+    width: 9.8vw;
+    height: 7.4vw;
+    top: 9.2vw;
+    left: 2.2vw;
+  }
+  #final {
+    width: 20vh;
+    height: 5vh;
+    top: 34vh;
+    left: 107vw;
+    font-size: 3vh;
+  }
+}
+@media screen and (min-aspect-ratio: 1/1) {
+  #timer, #clock, #light-container {
+    width: 40vh;
+    height: 40vh;
+    margin: 8vh 0;
+  }
+  #timer, #light-container {
+    left: -20vh;
+    margin-left: 50%;
+    font-size: 25vh;
+  }
+  .light {
+    width: 2.4vh;
+    height: 2.4vh;
+    top: -.8vh;
+    left: -1.2vh;
+    border-width: .4vh;
+  }
+}
+@keyframes lit {
+  0%   { background-color: red; }
+  20%  { background-color: orangered; }
+  40%  { background-color: orange; }
+  60%  { background-color: yellow; }
+  80%  { background-color: lightyellow; }
+  100% { background-color: white; }
+}
+@keyframes flashing {
+  0%   { background-color: orange; }
+  50%  { background-color: lightyellow; }
+  100% { background-color: orange; }
+}
+
+
+
+
+
+/* ...bottom-left/bottom panel displaying the question & answers */
+#question-display b { font-size: 50%; }
+#question-display #question, .answer-text, .answer {
+  color: white;
+  background-color: black;
+  display: flex;
+  align-items: center;
+}
+.removed * { color: gray; }
+#question {
+  width: 74%;
+  height: 25%;
+  margin: 5vh 13%;
+  justify-content: center;
+  line-height: 20px;
+}
+#question-bg, .answer-bg {
+  border: 30px double darkblue;
+  border-image: url('images/question-frame.png') 30% stretch;
+}
+#question-bg {
+  width: 80%;
+  height: 40%;
+  margin: 2vh 10%;
+}
+#question-line {
+  width: 100%;
+  height: 3px;
+  top: 24.3%;
+  background-color: #2578CC;
+}
+#A, #B, #C, #D {
+  width: 50%;
+  height: 25%;
+  top: 45%;
+}
+#C, #D { top: 70%; }
+#B, #D { left: 50%; }
+
+.answer-text {
+  width: 90%;
+  height: 60%;
+  top: 20%;
+  left: 5%;
+  background-color: black;
+}
+u {
+  text-decoration: none;
+  color: #A82;
+}
+
+@media screen and (max-aspect-ratio: 4/3) {
+  #question {
+    width: 72%;
+    margin: 5vh 14%;
+  }
+  .answer-text {
+    width: 82%;
+    left: 9%;
+  }
+}
+@media screen and (max-aspect-ratio: 3/4) {
+  #question {
+    width: 70%;
+    margin: 5vh 15%;
+  }
+  .answer-text {
+    width: 80%;
+    left: 10%;
+  }
+}
+@media screen and (max-aspect-ratio: 2/3) {
+  #question { height: 30%; }
+  #question-line { top: 23%; }
+
+  #A, #B, #C, #D {
+    width: 100%;
+    height: 15%;
+    top: 45%;
+    left: 0;
+  }
+  #B { top: 57.5%; }
+  #C { top: 70%; }
+  #D { top: 82.5%; }
+
+  .answer-text{
+    width: 88%;
+    left: 6%;
+  }
+}
+
+.hover .answer-bg { border-image: url("images/question-frame-highlight.png") 30% stretch; }
+.chosen .answer-bg { border-image: url("images/question-frame-choice.png") 30% stretch; }
+.correct .answer-bg { border-image: url("images/question-frame-correct.png") 30% stretch; }
+
+.hover .answer-text, .hover .answer { background-color: #404040; }
+.chosen .answer-text, .chosen .answer { background-color: rgb(255,169,89); }
+.correct .answer-text, .correct .answer { background-color: rgb(56,216,111); }
+
+.chosen .answer, .correct .answer { color: black; }
+.chosen u, .correct u { color: white; }
+
+
+
+
+
+/* ...right/top-right/hidden panel displaying the money ladder and lifelines */
+#lifelines * {
+  width: 25%;
+  margin: 1%;
+}
+#lifelines #help {
+  position: relative;
+  width: 10%;
+  top: -2.8vw;
+}
+
+#ladder {
+  top: 6vw;
+  color: #BB7830;
+  font-size: auto;
+}
+#ladder ol { padding-left: 9vw; }
+#ladder li {
+  text-align: left;
+  padding: 2px 0;
+}
+#ladder span {
+  color: white;
+  font-size: 50%;
+  visibility: hidden;
+}
+#ladder div {
+  position: relative;
+  top: -3vw;
+  left: -5vw;
+  width: 200%;
+  height: 6%;
+  margin: -5px 0 -17px;
+  z-index: -1;
+}
+.selected { color: white; }
+.selected div { background-color: orange; }
+
+@media screen and (min-aspect-ratio: 1/1) {
+  #money-ladder {
+    font-size: 3vw;
+  }
+  #ladder div {
+    width: 105%;
+    height: 5%;
+    margin-bottom: -2.8vw;
+  }
+}
+@media screen and (min-width: 900px) {
+  #money-ladder {
+    font-size: 27px;
+  }
+  #ladder div {
+    top: -27px;
+    left: -45px;
+    width: 205px;
+    height: 5%;
+    margin-bottom: -25px;
+  }
+}
+
+
+
+
+
+/* background elements */
+#studio { visibility: hidden }
+#bg, #celebration {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: -1;
+}
